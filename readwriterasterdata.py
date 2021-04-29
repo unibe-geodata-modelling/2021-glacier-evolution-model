@@ -3,7 +3,7 @@ drv = gdal.GetDriverByName('GTiff')
 srs = osr.SpatialReference()
 srs.ImportFromEPSG(21781) #for LV03 coordinate system and EPSG:2056 for LV95 Swiss cordinate system
 gtiff_driver=gdal.GetDriverByName("GTiff")
-
+#New line
 #*************************************************************
 #functions
 #*************************************************************
