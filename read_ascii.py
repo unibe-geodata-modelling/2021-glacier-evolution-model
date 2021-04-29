@@ -83,3 +83,25 @@ def gridasciitonumpyarrayint(ingridfilefullpath):
         i+=1
     infile.close()
     return arr, ncols, nrows, xllcorner, yllcorner, cellsize, NODATA_value, headerstr
+
+#****************************************************
+# end functions
+#****************************************************
+
+
+#**************************************************************************
+#ENVIRONMENT variables - set workspace and names of input files
+#**************************************************************************
+#set environment and workspace
+myworkspace = "C:/Users/jonas/Desktop" #change this to the directory you downloaded and extracted the input data
+print("Workspace: " + myworkspace)
+
+#read the input rasters: dem = digital elevation model, startarr=raster with starting points (cells) for rockfall
+dem=gridasciitonumpyarrayfloat(myworkspace+"/"+"dhm25_grid_raster.asc")
+demarr=dem[0]
+demcols=dem[1]
+demrows=dem[2]
+cellsize=dem[5]
+headerstr=dem[7]
+plt.imshow(demarr)
+print("raster dimension: "+str(demcols)+ "columns and "+ str(demrows)+" rows")
