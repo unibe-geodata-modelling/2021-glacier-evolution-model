@@ -24,7 +24,7 @@ ds.GetProjectionRef()
 plt.imshow(outarr)
 
 #could make hillshade but cant run it in QGIS
-hillshade = gdal.DEMProcessing('C:/Users/jonas/desktop/glacier_tsanfleuron_HS.tif',ds,'Hillshade',format='GTiff')
+hillshade = gdal.DEMProcessing('C:/Users/jonas/desktop/HSTEST.tif',ds,'Hillshade',format='GTiff')
 hillshadeAR = hillshade.GetRasterBand(1).ReadAsArray()
 plt.imshow(hillshadeAR)
 
