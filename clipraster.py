@@ -1,6 +1,6 @@
 #Imports
 
-from osgeo import osr, gdal
+from osgeo import osr, gdal, ogr
 import numpy as np
 import math
 import matplotlib.pyplot as plt
@@ -26,16 +26,12 @@ DEM = gdal.Open('C:/Users/jonas/Desktop/glacier_model_inputdata/glacier_tsanfleu
 #Check Projections (EPSG 2056 for ALTI3D)
 ch_glaciers.crs
 
-#select glacier by Name(Clip works just with creating a new shp file of the selected glacier, maybe its possible without saving to disk????)
-myglacier=ch_glaciers.loc[ch_glaciers.name=='Glacier de Tsanfleuron',:]
-myglacier.to_file('myglacier.shp')
+#Clip(warp(destination,DEM to clip, cutlineDSName= shapefile, cutlineWhere=(select in attributtable))
 
-
-#Clip(warp(destination,DEM to clip, cutlineDSName= glacieroutline.shp)
-
-dsClip=gdal.Warp('C:/Users/jonas/Desktop/glacier_model_inputdata/clip_glacier.tif', DEM, cutlineDSName='myglacier.shp', cropToCutline=True, dstNodata=np.nan )
+dsClip=gdal.Warp('C:/Users/jonas/Desktop/glacier_model_inputdata/clip_glacier.tif', DEM, cutlineDSName=ws+"/"+"SGI_2016_glaciers.shp", cutlineWhere="name='Glacier de Tsanfleuron'", cropToCutline=True, dstNodata=np.nan )
 
 dsClip=None
+
 
 
 
