@@ -32,12 +32,12 @@ DEM25=gdal.Open(ws+'/dhm25_grid_raster.tif')
 
 Alti3D = gdal.Open(ws+'/glacier_tsanfleuron.tif')
 Alti3D_Edit=gdal.Warp(ws+'/glacier_tsanfleuron_Edit.tif',Alti3D, xRes=25, yRes=25, resampleAlg="bilinear", cutlineDSName=ws+"/Glacier_Outlines/SGI_2016_glaciers.shp", cutlineWhere="name='Glacier de Tsanfleuron'", cropToCutline=True, dstNodata=np.nan )
-#Alti3D_Edit=gdal.Open(ws+'/glacier_tsanfleuron_Edit.tif')
+Alti3D_Edit=gdal.Open(ws+'/glacier_tsanfleuron_Edit.tif')
 
 #Edit DEM25(Reproject and Clip)
 
 DEM25_Edit = gdal.Warp(ws+'/'+'DEM25_Edit.tif', DEM25, dstSRS='EPSG:2056',cutlineDSName=ws+"/Glacier_Outlines/SGI_2016_glaciers.shp", cutlineWhere="name='Glacier de Tsanfleuron'", cropToCutline=True, dstNodata=np.nan )
-#DEM25_Edit=gdal.Open(ws+'/'+'DEM25_Edit.tif')
+DEM25_Edit=gdal.Open(ws+'/'+'DEM25_Edit.tif')
 
 #Substract DEM25 - ALTI3D
 
@@ -62,7 +62,7 @@ Diff=Old-New
 
 createRasterFromCopy(NewFile,Alti3D_Edit,Diff)
 
-Subtract=gdal.Open(NewFile)
+Subtract=gdal.Open(ws+'/'+'Substract.tif')
 
 
 
