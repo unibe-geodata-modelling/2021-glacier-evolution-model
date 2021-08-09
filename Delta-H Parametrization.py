@@ -86,7 +86,8 @@ dh_smoth_glacier_tsandfleuron_n = normalize_dh(dh_smoth_glacier_tsandfleuron)
 
 #plot and invert DEM with [::-1]
 
-plt.plot(dem_smoth_glacier_tsanfleuron_n[::-1], dh_smoth_glacier_tsandfleuron_n)
+plt.plot(dem_smoth_glacier_tsanfleuron_n, dh_smoth_glacier_tsandfleuron_n)
+plt.gca().invert_yaxis()
 plt.title('delta-H GLTSF')
 plt.xlabel('Normalized elevation range')
 plt.ylabel('Normalized ice thickness change')
@@ -98,7 +99,7 @@ plt.savefig(ws+'/delta_H GLTSF.png')
 
 ## normalized elevation range, normalized ice tickness change
 
-delta_h_GLTSF_xy_norm = pd.DataFrame( np.column_stack([dem_smoth_glacier_tsanfleuron_n [::-1],dh_smoth_glacier_tsandfleuron_n]), columns=['Normalized elevation range','Normalized ice thickness change'])
+delta_h_GLTSF_xy_norm = pd.DataFrame( np.column_stack([dem_smoth_glacier_tsanfleuron_n ,dh_smoth_glacier_tsandfleuron_n]), columns=['Normalized elevation range','Normalized ice thickness change'])
 
 np.savetxt(ws+'/deltH_GLTSF_xy_norm.txt', delta_h_GLTSF_xy_norm, delimiter = ';', fmt= '%.5f', header='Normalized elevation range ; Normalized ice thickness change')
 
