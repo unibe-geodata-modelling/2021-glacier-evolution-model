@@ -50,7 +50,7 @@ def normalize_dh (dh):
 
 
 #Workspace: Define a Workspace for the following steps.
-ws = input('enter path of your workspace(ws):')
+ws = input('create a workspace folder and enter path of your workspace(ws):')
 
 
 ################################################PREPROCESSING###########################################################
@@ -58,8 +58,13 @@ ws = input('enter path of your workspace(ws):')
 #Download glacier outlines
 print('download the glacier_outlines folder from GitHub and safe it to ws')
 
+#Download dhm25 and Safe to ws
+print("download the dhm25_grid_raster from GitHub")
+print("safe it to ws")
+
 #Select the Glacier
 glacier = input('name of glacier(same writen as in Glacier Outline Shape File(Check Attribute Table in GIS)!!!):')
+
 
 
 #Drivers and Proj(EPSG 21781 for LV03)
@@ -67,9 +72,8 @@ drv = gdal.GetDriverByName('GTiff')
 srs = osr.SpatialReference()
 srs.ImportFromEPSG(21781)
 
-#Download dhm25 and Safe to ws
-print("download the dhm25_grid_raster from GitHub")
-print("safe it to ws")
+
+
 
 #Convert DHM25 .Asc to GTIFF inkl. Proj.
 print('processing projection and format of dhm25 of Switzerland ...have some patience please')
