@@ -56,11 +56,11 @@ ws = input('create a workspace folder and enter path of your workspace(ws):')
 ################################################PREPROCESSING###########################################################
 
 #Download glacier outlines
-print('download the glacier_outlines folder from GitHub and safe it to ws')
+print('download the glacier_outlines folder from Drive and safe it to ws')
 
 #Download dhm25 and Safe to ws
-print("download the dhm25_grid_raster from GitHub")
-print("safe it to ws")
+print("download the dhm25_grid_raster from Drive and Save it to ws")
+
 
 #Select the Glacier
 glacier = input('name of glacier(same writen as in Glacier Outline Shape File(Check Attribute Table in GIS)!!!):')
@@ -119,8 +119,10 @@ substract=gdal.Open(ws+'/'+f'substract_{FileName}')
 
 
 
+
+
 print('Now you have a file called Substract_(your file name) in the ws folder. There you see the alteration of glacier thikness '
-      'between the older dhm25 and the modern swissAlti3D,it s arround 20 years.')
+      'between the older dhm25 and the modern swissAlti3D,it s 18 years.')
 
 ############################################################DELTA-H PARAMETRIZATION#####################################
 
@@ -135,8 +137,11 @@ masked_substract= np.ma.masked_invalid(substractArray)
 masked_alti3D= np.ma.masked_invalid(alti3DArray)
 
 
-hypsometry, bins = np.histogram(masked_alti3D.compressed(), bins="fd")
-
+hypsometry, bins = np.histogram(masked_alti3D.compressed(), bins=int ((masked_alti3D.max()-masked_alti3D.min())/10))
+up_lim= bins[1:]
+low_lim=bins[0:-1]
+up_lim
+low_lim
 
 #Merge the two Masks
 multimask = np.ma.mask_or(np.ma.getmask(masked_substract), np.ma.getmask(masked_alti3D))
@@ -153,7 +158,10 @@ ind = np.digitize(df_sort['DHM'], bins)
 
 df_band=df_sort.groupby(ind).mean()
 
-
+#Calculate the Area of each Band
+band_area = []
+for i in hypsometry:
+    band_area.append(i * 625)
 
 #Separating dh and DHM
 dhm_df = df_band['DHM']
@@ -162,24 +170,23 @@ dh_df = df_band['dh']
 #plt.plot(dhm_df,dh_df)
 
 #smoth
-dhm_smoth_df = dhm_df.rolling(window=3, min_periods=1).mean()
+#dhm_smoth_df = dhm_df.rolling(window=3, min_periods=1).mean()
 dh_smoth_df = dh_df.rolling(window=3, min_periods=1).mean()
 
 #plt.plot(dhm_smoth_df, dh_smoth_df)
 
 
 
-
 #Normalize dhm and dh
-
-dhm_smoth_df_n = normalize_DHM(dhm_smoth_df)
+#dhm_smoth_df_n = normalize_DHM(dhm_smoth_df)
+dhm_df_n = normalize_DHM(dhm_df)
 dh_smoth_df_n = normalize_dh(dh_smoth_df)
 
 
 
 #plot deltaH and elevation Range
 
-plt.plot(dhm_smoth_df_n, dh_smoth_df_n)
+plt.plot(dhm_df_n, dh_smoth_df_n)
 plt.gca().invert_yaxis()
 plt.title(f'delta-H {glacier}')
 plt.xlabel('Normalized elevation range')
@@ -191,24 +198,16 @@ print('A graph of the parametrization of your selected glacier is saved in your 
 
 #Save Files as txt
 
-## normalized elevation range, normalized ice tickness change
+## normalized elevation range, normalized ice tickness change, band_area
 
-delta_h_df_xy_norm = pd.DataFrame( np.column_stack([dhm_smoth_df_n ,dh_smoth_df_n]), columns=['Normalized elevation range','Normalized ice thickness change'])
+parametrization = pd.DataFrame( np.column_stack([dhm_df_n , dhm_df, dh_smoth_df_n, dh_smoth_df, low_lim, up_lim, band_area]), columns=['normalized_elevation_range', 'band_elevation', 'normalized_ice_thickness_change', 'ice_thickness_change', 'low_lim', 'up_lim', 'band-area'])
 
-np.savetxt(ws+f'/deltaH_{glacier}_xy_norm.txt', delta_h_df_xy_norm, delimiter = ';', fmt= '%.5f', header='Normalized elevation range ; Normalized ice thickness change')
+np.savetxt(ws+f'/deltaH_{glacier}.txt', parametrization, delimiter = ';', fmt= '%.5f', header='normalized_elevation_range ; band_elevation ; normalized_ice_thickness_change  ; ice_thickness_change; low_lim; up_lim;  band_area')
 
-print('Txt file of x + y normalized is saved in your ws')
-## elevation Bands, normalized ice tickness change
+print('Txt file of the parametrization is saved in your ws')
 
-delta_h_df_y_norm = pd.DataFrame( np.column_stack([dhm_smoth_df,dh_smoth_df_n]), columns=['Elevation Band','Normalized ice thickness change'])
 
-np.savetxt(ws+f'/deltaH_{glacier}_y_norm.txt', delta_h_df_y_norm, delimiter = ';', fmt= '%.5f', header='Elevation Band ; Normalized ice thickhess change')
+#####################################################################IMPLEMENTATION##################################################################################################
 
-print('Txt file of normalized y is saved in your ws')
-## elevation Bands, ice tickness change
+################################################################Calculate Ba(Massbalance)###########################################################################################
 
-delta_h_df = pd.DataFrame( np.column_stack([dhm_smoth_df,dh_smoth_df]), columns=['Elevation Band','Ice thickness change'])
-
-np.savetxt(ws+f'/deltaH_{glacier}.txt', delta_h_df, delimiter = ';', fmt= '%.5f', header='Elevation Band ; Ice thickness change')
-
-print('Txt file without normalized values of parametrization is saved in your ws')
