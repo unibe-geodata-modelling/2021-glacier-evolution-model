@@ -45,7 +45,7 @@ def normalize_dh (dh):
 
 #Workspace: Enter the path of a separate workspace for the implementation
 
-ws = 'C:/Users/jonas/Desktop//workspace_implementation'
+ws = input('Enter the path of your workspace for the implementation script:')
 
 #Drivers and Proj(EPSG 21781 for LV03)
 drv = gdal.GetDriverByName('GTiff')
@@ -53,10 +53,11 @@ srs = osr.SpatialReference()
 srs.ImportFromEPSG(21781)
 
 
-#########################################################Calculating Geodetic Mass Balance Change (Ba) according to Fischer M. et al. 2015##############################################
-
 #Glacier to model.
 glacier = 'Glacier de Tsanfleuron'
+
+
+
 
 #Open and edit files
 
@@ -89,6 +90,7 @@ glacier_bed = gdal.Open(ws + '\GlacierBed.tif')
 edit_glacier_bed =gdal.Warp(ws +f'/glacier_bed_{FileName}', glacier_bed, xRes=25, yRes=25, resampleAlg="bilinear", cutlineDSName=ws + "/glacier_outlines/SGI_2016_glaciers.shp", cutlineWhere=f"name='{glacier}'", cropToCutline=True, dstNodata=np.nan)
 edit_glacier_bed =gdal.Open(ws + f'/glacier_bed_{FileName}')
 
+#########################################################Calculating Geodetic Mass Balance Change (Ba) according to Fischer M. et al. 2015##############################################
 
 
 #Calculate volume change from 1998 to 2016
@@ -165,10 +167,10 @@ BA = (dv * fdv) / (A * dt)
 
 #Ba = fs * pice * Sum (Ai * dhi)
 
-#fs= Ba/fs*pic*Sum (Ai* dhi)
+#fs= Ba/fs*pice * Sum (Ai* dhi)
 
 
-#Band Area * normalized elevation range
+#Band Area * normalized elevation range (Ba in m.w.a/yr is convertet in to m with density of water (997) and the area.
 
 ((parametrication.iloc[:,2] * parametrication.iloc[:,6]).sum())* 920
 
@@ -303,7 +305,7 @@ for i in hypsometry:
 fs_H2 = (BA* 997 * 2442977) / (((parametrication.iloc[:,2] * band_area_h2).sum())* 920)
 
 
-###############################################################Repeat the code for as many Rears you Wish with a loop#########################
+###############################################################Repeat the code for as many years you like with a loop#########################
 
 #Create a list of each years updated glacier surface and add the first two runs
 Alti_List=[]
@@ -311,7 +313,9 @@ Alti_List.append(Alti_H1_Final)
 Alti_List.append(Alti_H2_Final)
 
 #Indicate the number of years to project into the future
-years=50
+years= int(input ('number of years you want to model in to the future:'))
+
+
 
 for x in range(years-2):
 
@@ -350,5 +354,6 @@ createRasterFromCopy(NewFile, edit_alti3d, Alti_List[years-1])
 NewFile=None
 Alti_List=None
 
-sum(band_area)
 
+
+print('you will find a .tif file: gltsf_... with the year number according to your insertet number of years ')
