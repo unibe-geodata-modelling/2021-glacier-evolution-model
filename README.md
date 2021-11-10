@@ -5,7 +5,7 @@ This is the instruction for the 2021-glacier-evolution-model repository. It cont
 # Delta-H Parametrication
 
 This Script includes the code for parametricing individual glaciers acording to Huss et al. 2010.
-Data used to run the script can be downloaded an preprocessed by your self or downloaded via a google drive folder where no preprocessing is neccesarry. To get access send me a mail to jonas.schild@students.unibe.ch
+Data used to run the script can be downloaded an preprocessed by your self or downloaded via a google drive folder where no preprocessing via GIS is neccesarry. To get access send me a mail to jonas.schild@students.unibe.ch
 
 Here a list of the required input data, which has to be saved in to your workspace folder:
 
@@ -37,8 +37,13 @@ All steps to run the script are mentioned in the script self. Just download the 
 
 This script has two parts. First is the calculation of the geodetic massbalance (Ba) according to Fischer et al. 2015. Second ist the glacier evolution model according to Huss et al. 2010. The geodetic massbalance is necessery to solve Eq. 2 of Huss et al. 2010.
 
+Make a new workspace folder and add the data below. 
 Required input data: 
 
-- dhm25_grid_raster.tif -> this you can coppy from the parametrization ws in to the implementation ws.
-- glacier_tsanfleuron.tif -> same file as used in the parametrization script. 
-- 98_outline -> this folder contains a shape_file of the glacier outline of the year 1998. Drawn according to the Ortophoto and the historical Map of 1998. Provided by swisstopo. 
+- dhm25_grid_raster.tif -> you can copy this from the parametrization ws 
+- glacier_tsanfleuron.tif -> you can copy this from the parametrization ws.
+- edit_glacier_tsanfleuron.tif -> you can copy this from the parametrization ws. 
+- 98_outline -> this folder contains a shape_file of the glacier outline of the year 1998. Drawn according to the Ortophoto and the historical Map of 1998. Provided by swisstopo. You have this file in the google drive folder
+- glacier_outlines -> this folder you can copy from the parametrization ws. 
+- GlacierBed.tif -> This is an elevation model of all glacier beds of the Swiss Alps. Provided by ETH Zürich. You find this file in the google drive folder. 
+- deltaH_Glacier de Tsanfleuron.txt -> This is the .txt file of the parametrization. You can copy this from the parametrization ws
