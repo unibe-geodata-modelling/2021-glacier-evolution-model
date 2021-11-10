@@ -9,7 +9,9 @@ Both skripts were written in Python 3.9. in the PyCharm 2021.1 Community Edition
 ## Delta-H Parametrization
 
 This Script includes the code for parametricing individual glaciers acording to Huss et al. 2010.
-Data used to run the script can be downloaded an preprocessed by your self or downloaded via a google drive folder where no preprocessing via GIS is neccesarry. To get access send a mail to jonas.schild@students.unibe.ch
+Data used to run the script can be downloaded an preprocessed by your self or downloaded via a google drive folder where no preprocessing via GIS is neccesarry. To get access send a mail to jonas.schild@students.unibe.ch. With this script you can do the parametrization for all glacier included in the Swiss Glacier Inventory 2016.
+
+### Input data
 
 Here a list of the required input data, which has to be saved in to your workspace folder:
 
@@ -25,6 +27,8 @@ Here a list of the required input data, which has to be saved in to your workspa
  
 All steps to run the script are mentioned in the script self. Just download the mentioned data above . In the google drive folder is the glacier_tsanfleuron.tif data as an example. If you want to run the scrip for an other glacier just download the needed squares of the alti3D via the link above and merge them via QGIS. Then you just have to enter a diffrent file name and glacier name. But then this script works for any glacier included in the Swiss Glacier Inventory 2016. 
  
+ ### Output data
+ 
  Here a list of the output data:
  
   - dhm25_grid_raster.tif -> this is the convertet dhm25_grid_raster as gtiff. You will need this for the implementation script.
@@ -39,7 +43,9 @@ All steps to run the script are mentioned in the script self. Just download the 
 
 ## Delta-H Implementation
 
-This script has two parts. First is the calculation of the geodetic massbalance (Ba) according to Fischer et al. 2015. Second ist the glacier evolution model according to Huss et al. 2010. The geodetic massbalance is necessery to solve Eq. 2 of Huss et al. 2010.
+This script has two parts. First is the calculation of the geodetic massbalance (Ba) according to Fischer et al. 2015. Second ist the glacier evolution model according to Huss et al. 2010. The geodetic massbalance is necessery to solve Eq. 2 of Huss et al. 2010. This Script will work just for the Glacier de Tsanfleuron. For running the script with any swiss glacier the outlines of all glacier would be necessary. 
+
+### Input Data
 
 Make a new workspace folder and add the data below. 
 Required input data: 
@@ -53,6 +59,8 @@ Required input data:
   - deltaH_Glacier de Tsanfleuron.txt -> This is the .txt file of the parametrization. You can copy this from the parametrization ws
 
 All further steps are also here mentioned in the script. The only two things you have to do is to make a workspace folder with the seven files from above and indicate the path of it. A second thing is to enter the number of years you want to project in to the future. 
+
+### Output data
 
 Beside some irrelevant files you will get as an output in your workspace folder these two important files:
 
