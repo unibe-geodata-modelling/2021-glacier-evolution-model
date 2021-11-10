@@ -58,6 +58,7 @@ srs.ImportFromEPSG(21781)
 #Glacier to model.
 glacier = 'Glacier de Tsanfleuron'
 
+#Open and edit files
 
 #Open dhm25
 #dhm25=gdal.Open(ws+'/dhm25_grid_raster.tif')
@@ -75,7 +76,22 @@ ba_edit_dhm25 = gdal.Open(ws+'/'+'ba_edit_dhm25.tif')
 #ba_edit_alti3d =gdal.Warp(ws +'/ba_edit_glacier_tsanfleuron.tif', alti3d, xRes=transform[1], yRes=transform[1], resampleAlg="bilinear", cutlineDSName=ws + "/98_outline/outline_98_2.shp", cutlineWhere=f"name='{glacier}'", cropToCutline=True, dstNodata=np.nan)
 ba_edit_alti3d =gdal.Open(ws + '/ba_edit_glacier_tsanfleuron.tif')
 
+#Open the parametrication .txt file
+parametrication = pd.read_csv(ws+'/deltaH_Glacier de Tsanfleuron.txt', sep=';')
 
+
+#Open the Edit Alti3D file with the 2016 glacier extend
+edit_alti3d = gdal.Open(ws + f'/edit_{FileName}')
+
+
+#Open and edit the glacier bed file
+glacier_bed = gdal.Open(ws + '\GlacierBed.tif')
+edit_glacier_bed =gdal.Warp(ws +f'/glacier_bed_{FileName}', glacier_bed, xRes=25, yRes=25, resampleAlg="bilinear", cutlineDSName=ws + "/glacier_outlines/SGI_2016_glaciers.shp", cutlineWhere=f"name='{glacier}'", cropToCutline=True, dstNodata=np.nan)
+edit_glacier_bed =gdal.Open(ws + f'/glacier_bed_{FileName}')
+
+
+
+#Calculate volume change from 1998 to 2016
 
 #NewFile = ws+'/'+f'ba_substract_{FileName}'
 
@@ -151,9 +167,6 @@ BA = (dv * fdv) / (A * dt)
 
 #fs= Ba/fs*pic*Sum (Ai* dhi)
 
-parametrication = pd.read_csv(ws+'/deltaH_Glacier de Tsanfleuron.txt', sep=';')
-
-parametrication.iloc[:,6]
 
 #Band Area * normalized elevation range
 
@@ -163,12 +176,9 @@ fs= (BA* 997 * 2442977) / (((parametrication.iloc[:,2] * parametrication.iloc[:,
 
 
 ##############################################################Calculate h1################################################################################################
-#Open DEMs and read as array
 
-edit_alti3d =gdal.Open(ws + f'/edit_{FileName}')
-glacier_bed = gdal.Open(ws + '\GlacierBed.tif')
-edit_glacier_bed =gdal.Warp(ws +f'/glacier_bed_{FileName}', glacier_bed, xRes=25, yRes=25, resampleAlg="bilinear", cutlineDSName=ws + "/glacier_outlines/SGI_2016_glaciers.shp", cutlineWhere=f"name='{glacier}'", cropToCutline=True, dstNodata=np.nan)
-edit_glacier_bed =gdal.Open(ws + f'/glacier_bed_{FileName}')
+
+#Read the alti3d file with 2016 glacier extend and the glacier bed file as an array
 
 alti3DArray = edit_alti3d.ReadAsArray()
 edit_glacier_bed_array = edit_glacier_bed.ReadAsArray()
