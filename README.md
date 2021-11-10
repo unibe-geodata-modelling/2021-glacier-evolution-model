@@ -2,10 +2,14 @@
 
 This is the instruction for the 2021-glacier-evolution-model repository. It contains two scripts. Delta-H Parametrization and the built on it Delta-H Implementation.
 
-# Delta-H Parametrization
+## Software
+
+Both skripts were written in Python 3.9. in the PyCharm 2021.1 Community Edition.
+
+## Delta-H Parametrization
 
 This Script includes the code for parametricing individual glaciers acording to Huss et al. 2010.
-Data used to run the script can be downloaded an preprocessed by your self or downloaded via a google drive folder where no preprocessing via GIS is neccesarry. To get access send me a mail to jonas.schild@students.unibe.ch
+Data used to run the script can be downloaded an preprocessed by your self or downloaded via a google drive folder where no preprocessing via GIS is neccesarry. To get access send a mail to jonas.schild@students.unibe.ch
 
 Here a list of the required input data, which has to be saved in to your workspace folder:
 
@@ -33,7 +37,7 @@ All steps to run the script are mentioned in the script self. Just download the 
           normalized_elevation_range ; band_elevation ; normalized_ice_thickness_change  ; ice_thickness_change; low_lim; up_lim ; band_area                                                                                                                           
                                                          
 
-# Delta-H Implementation
+## Delta-H Implementation
 
 This script has two parts. First is the calculation of the geodetic massbalance (Ba) according to Fischer et al. 2015. Second ist the glacier evolution model according to Huss et al. 2010. The geodetic massbalance is necessery to solve Eq. 2 of Huss et al. 2010.
 
@@ -54,3 +58,10 @@ Beside some irrelevant files you will get as an output in your workspace folder 
 
   - gltsf_(year according to the insertet number of years).tif -> this is the updated glacier surface for the chosen year
   - substract_gltsf_2016-(year according to the insertet number of years).tif -> this is the difference of glacier surface elevation between 2016 and your chosen year. 
+
+
+
+## Contact
+
+Jonas Schild: jonas.schild@students.unibe.ch
+Ann Christine Kogel: ann.kogel@students.unibe.ch
