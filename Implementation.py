@@ -43,10 +43,7 @@ def normalize_dh (dh):
     return dh_n
 
 
-#########################################################Calculating Geodetic Mass Balance Change (Ba) according to Fischer M. et al. 2015##############################################
-
-
-#Workspace
+#Workspace: Enter the path of a separate workspace for the implementation
 
 ws = 'C:/Users/jonas/Desktop//workspace_implementation'
 
@@ -55,25 +52,30 @@ drv = gdal.GetDriverByName('GTiff')
 srs = osr.SpatialReference()
 srs.ImportFromEPSG(21781)
 
-#Enter the Filname of the merged swissALTI3D file
-FileName='glacier_tsanfleuron.tif'
 
+#########################################################Calculating Geodetic Mass Balance Change (Ba) according to Fischer M. et al. 2015##############################################
 
+#Glacier to model.
 glacier = 'Glacier de Tsanfleuron'
+
+
 #Open dhm25
 #dhm25=gdal.Open(ws+'/dhm25_grid_raster.tif')
 
-#Open and Edit ALTI3D(Resample and Clip)
-#print('edit and open swissALTI3D')
-#alti3d = gdal.Open(ws + f'/{FileName}')
-#transform = dhm25.GetGeoTransform()
-#ba_edit_alti3d =gdal.Warp(ws +f'/ba_edit_{FileName}', alti3d, xRes=transform[1], yRes=transform[1], resampleAlg="bilinear", cutlineDSName=ws + "/ba_outline/outline_98_2.shp", cutlineWhere=f"name='{glacier}'", cropToCutline=True, dstNodata=np.nan)
-ba_edit_alti3d =gdal.Open(ws + f'/ba_edit_{FileName}')
-
-#Edit DEM25(Reproject and Clip)
+#Edit DEM25(Reproject and Clip) with the 1998 glacier extend
 #print('edit dhm25')
-#ba_edit_dhm25 = gdal.Warp(ws+'/'+'ba_edit_dhm25.tif', dhm25, dstSRS='EPSG:2056',cutlineDSName=ws+"/ba_outline/outline_98_2.shp", cutlineWhere=f"name='{glacier}'", cropToCutline=True, dstNodata=np.nan )
+#ba_edit_dhm25 = gdal.Warp(ws+'/'+'ba_edit_dhm25.tif', dhm25, dstSRS='EPSG:2056',cutlineDSName=ws+"/98_outline/outline_98_2.shp", cutlineWhere=f"name='{glacier}'", cropToCutline=True, dstNodata=np.nan )
 ba_edit_dhm25 = gdal.Open(ws+'/'+'ba_edit_dhm25.tif')
+
+
+#Open and Edit ALTI3D(Resample and Clip) with the 1998 glacier extend
+#print('edit and open swissALTI3D')
+#alti3d = gdal.Open(ws+'/glacier_tsanfleuron.tif')
+#transform = dhm25.GetGeoTransform()
+#ba_edit_alti3d =gdal.Warp(ws +'/ba_edit_glacier_tsanfleuron.tif', alti3d, xRes=transform[1], yRes=transform[1], resampleAlg="bilinear", cutlineDSName=ws + "/98_outline/outline_98_2.shp", cutlineWhere=f"name='{glacier}'", cropToCutline=True, dstNodata=np.nan)
+ba_edit_alti3d =gdal.Open(ws + '/ba_edit_glacier_tsanfleuron.tif')
+
+
 
 #NewFile = ws+'/'+f'ba_substract_{FileName}'
 
@@ -107,10 +109,12 @@ ba_alti3D_Final_Mask=np.ma.array(ba_alti3DArray, mask=ba_multimask,fill_value=np
 ba_df =  pd.DataFrame(np.column_stack([ba_substract_Final_Mask, ba_alti3D_Final_Mask]), columns=['dh','DHM'])
 ba_df_sort = ba_df.sort_values('dh')
 
-#Avarage elevation Change between 1998 and 2016
+######################################################Equation (1) in Fischer et al. 2015######################################################
+
+#Avarage elevation Change between 1998 and 2016.
 dh_mean =ba_df_sort['dh'].mean()
 
-#dv = dh x A98
+#dv = dh_mean x A98
 
 #Glacier Area 1998
 A98 =(ba_df['dh'].count()) * 625
