@@ -50,7 +50,7 @@ Required input data:
 
 All further steps are also here mentioned in the script. The only two things you have to do is to make a workspace folder with the seven files from above and indicate the path of it. A second thing is to enter the number of years you want to project in to the future. 
 
-Beside many other files you will get as an output in your workspace folder these two important files:
+Beside some irrelevant files you will get as an output in your workspace folder these two important files:
 
   - gltsf_(year according to the insertet number of years).tif -> this is the updated glacier surface for the chosen year
   - substract_gltsf_2016-(year according to the insertet number of years).tif -> this is the difference of glacier surface elevation between 2016 and your chosen year. 
