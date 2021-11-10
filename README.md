@@ -43,7 +43,7 @@ Required input data:
 - dhm25_grid_raster.tif -> you can copy this from the parametrization ws 
 - glacier_tsanfleuron.tif -> you can copy this from the parametrization ws.
 - edit_glacier_tsanfleuron.tif -> you can copy this from the parametrization ws. 
-- 98_outline -> this folder contains a shape_file of the glacier outline of the year 1998. Drawn according to the Ortophoto and the historical Map of 1998. Provided by swisstopo. You have this file in the google drive folder
+- 98_outline -> this folder contains a shape_file of the glacier outline of the year 1998. Drawn according to the Ortophoto and the historical Map of 1998. Provided by                           swisstopo. You have this file in the google drive folder
 - glacier_outlines -> this folder you can copy from the parametrization ws. 
 - GlacierBed.tif -> This is an elevation model of all glacier beds of the Swiss Alps. Provided by ETH Zürich. You find this file in the google drive folder. 
 - deltaH_Glacier de Tsanfleuron.txt -> This is the .txt file of the parametrization. You can copy this from the parametrization ws
