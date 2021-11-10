@@ -37,7 +37,7 @@ srs = osr.SpatialReference()
 srs.ImportFromEPSG(21781)
 
 
-#Glacier to model.
+#Glacier to model
 glacier = 'Glacier de Tsanfleuron'
 
 #Open and edit files
