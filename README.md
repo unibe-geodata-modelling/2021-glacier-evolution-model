@@ -8,8 +8,8 @@ Both skripts were written in Python 3.9. in the PyCharm 2021.1 Community Edition
 
 ## Delta-H Parametrization
 
-This Script includes the code for parametrizing individual glaciers acording to Huss et al. 2010.
-Data used to run the script can be downloaded an preprocessed by your self or downloaded via a google drive folder where no preprocessing via GIS is neccesarry. To get access send a mail to jonas.schild@students.unibe.ch. With this script you can do the parametrization for all glacier included in the Swiss Glacier Inventory 2016.
+This Script includes the code for parametrizing individual glaciers according to Huss et al. 2010.
+Data used to run the script can be downloaded an preprocessed by your self or downloaded via a google drive folder where no preprocessing via GIS is neccesarry. To get access send a mail to jonas.schild@students.unibe.ch. With this script you can do the parametrization for all glaciers included in the Swiss Glacier Inventory 2016.
 
 ### Input data
 
@@ -25,7 +25,7 @@ Here a list of the required input data, which has to be saved in to your workspa
   - 16_outlines -> this is a folder with the glacier outlines of switzerland in 2016. Provided by Swiss Glacier Inventory 2016
 
  
-All steps to run the script are mentioned in the script self. Just download the mentioned data above . In the google drive folder is the glacier_tsanfleuron.tif data as an example. If you want to run the scrip for an other glacier just download the matching squares of the Swiss Topo Alti3D via the link above and merge them via QGIS. Then you just have to enter a diffrent file name and glacier name. But this script works for any glacier included in the Swiss Glacier Inventory 2016. 
+All steps to run the script are mentioned in the script it self. Just download the mentioned data above . In the google drive folder is the glacier_tsanfleuron.tif data as an example. If you want to run the scrip for an other glacier just download the matching squares of the Swiss Topo Alti3D via the link above and merge them via QGIS. Then you just have to enter a diffrent file name and glacier name. But this script works for any glacier included in the Swiss Glacier Inventory 2016. 
  
  ### Output data
  
@@ -36,7 +36,7 @@ All steps to run the script are mentioned in the script self. Just download the 
   - edit_dhm25.tif -> Elevation model of 1998 clipt to the 2016 glacier extend. Reprojected from CH1903/LV03 to CH1903+/LV95. 
   - substract_glacier_tsanfleuon.tif -> this is the difference in glacier thickness between 1998 and 2016.
   - a PNG plot of the parametrication
-  - a .txt file with the parametrication data frame ready to run the Delta-H Implemention Script -> includes: 
+  - a .txt file with the parametrication data-frame ready to run the Delta-H Implemention script -> includes: 
 
           normalized_elevation_range ; band_elevation ; normalized_ice_thickness_change  ; ice_thickness_change; low_lim; up_lim ; band_area                                                                                                                           
                                                          
@@ -53,7 +53,7 @@ Required input data:
   - dhm25_grid_raster.tif -> you can copy this from the parametrization ws 
   - glacier_tsanfleuron.tif -> you can copy this from the parametrization ws.
   - edit_glacier_tsanfleuron.tif -> you can copy this from the parametrization ws. 
-  - 98_outline -> this folder contains a shape_file of the glacier outline of the year 1998. Drawn according to the Ortophoto and the historical Map of 1998. Provided by                           swisstopo. You have this file in the google drive folder
+  - 98_outline -> this folder contains a shape_file of the glacier outline of the year 1998. Drawn according to the ortophoto and the historical Map of 1998. Provided by                           Swisstopo. You have this file in the google drive folder
   - 16_outlines -> this folder you can copy from the parametrization ws. 
   - GlacierBed.tif -> This is an elevation model of all glacier beds of the Swiss Alps. Provided by ETH Zürich. You find this file in the google drive folder. 
   - deltaH_Glacier de Tsanfleuron.txt -> This is the .txt file of the parametrization. You can copy this from the parametrization ws
