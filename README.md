@@ -1,10 +1,10 @@
 # 2021-glacier-evolution-model
 
-This is the readme for the 2021-glacier-evolution-model repository. It contains two scripts. Delta-H Parametrization and the built on it Delta-H Implementation.
+This is the README for the 2021-glacier-evolution-model repository. It contains two scripts. Delta-H Parametrization and the built on it Delta-H Implementation.
 
 ## Software
 
-Both skripts were written in Python 3.9. in the PyCharm 2021.1 Community Edition.
+Both skripts were written in Python 3.9. in the PyCharm 2020.3.3 Community Edition.
 
 ## Delta-H Parametrization
 
