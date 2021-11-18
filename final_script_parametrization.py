@@ -1,18 +1,10 @@
 #Delta-H Final Script
 
-
-
 #Imports
 
 from osgeo import osr, gdal, ogr
 import numpy as np
-import math
 import matplotlib.pyplot as plt
-import fiona
-import pyproj
-import rtree
-import shapely
-import geopandas as gpd
 import pandas as pd
 
 #Functions
@@ -78,7 +70,7 @@ srs.ImportFromEPSG(21781)
 #Convert DHM25 .Asc to GTIFF inkl. Proj.
 print('processing projection and format of dhm25 of Switzerland ...have some patience please')
 convertASCIItoGTIFF(ws+'/dhm25_grid_raster.asc')
-dhm25=gdal.Open(ws+'/dhm25_grid_raster.tif')
+dhm98 = gdal.Open(ws + '/dhm25_grid_raster.tif')
 
 #Download swissALTI3D and merge in QGIS
 
@@ -90,16 +82,16 @@ FileName=input('Filename of the merged SwissALTI3D data in ws (e.g. glacier_tsan
 
 #Open and Edit ALTI3D(Resample and Clip)
 print('edit and open swissALTI3D')
-alti3d = gdal.Open(ws + f'/{FileName}')
-transform = dhm25.GetGeoTransform()
-edit_alti3d =gdal.Warp(ws +f'/edit_{FileName}', alti3d, xRes=transform[1], yRes=transform[1], resampleAlg="bilinear", cutlineDSName=ws + "/glacier_outlines/SGI_2016_glaciers.shp", cutlineWhere=f"name='{glacier}'", cropToCutline=True, dstNodata=np.nan)
-edit_alti3d =gdal.Open(ws + f'/edit_{FileName}')
+dhm16 = gdal.Open(ws + f'/{FileName}')
+transform = dhm98.GetGeoTransform()
+dhm16_edit =gdal.Warp(ws + f'/edit_{FileName}', dhm16, xRes=transform[1], yRes=transform[1], resampleAlg="bilinear", cutlineDSName=ws + "/16_outlines/SGI_2016_glaciers.shp", cutlineWhere=f"name='{glacier}'", cropToCutline=True, dstNodata=np.nan)
+dhm16_edit =gdal.Open(ws + f'/edit_{FileName}')
 
 
 #Edit DEM25(Reproject and Clip)
 print('edit dhm25')
-edit_dhm25 = gdal.Warp(ws+'/'+'edit_dhm25.tif', dhm25, dstSRS='EPSG:2056',cutlineDSName=ws+"/glacier_outlines/SGI_2016_glaciers.shp", cutlineWhere=f"name='{glacier}'", cropToCutline=True, dstNodata=np.nan )
-edit_dhm25 = gdal.Open(ws+'/'+'edit_dhm25.tif')
+dhm98_edit = gdal.Warp(ws + '/' + 'edit_dhm25.tif', dhm98, dstSRS='EPSG:2056', cutlineDSName=ws + "/16_outlines/SGI_2016_glaciers.shp", cutlineWhere=f"name='{glacier}'", cropToCutline=True, dstNodata=np.nan)
+dhm98_edit = gdal.Open(ws + '/' + 'edit_dhm25.tif')
 
 
 #Substract DEM25(Old) - ALTI3D(Modern)
@@ -109,11 +101,11 @@ NewFile = ws+'/'+f'substract_{FileName}'
 #Calculate Diffrence and write to a new Tiff
 
 
-Old=getRasterBand(edit_dhm25)
-New=getRasterBand(edit_alti3d)
+Old=getRasterBand(dhm98_edit)
+New=getRasterBand(dhm16_edit)
 Diff=Old-New
 
-createRasterFromCopy(NewFile, edit_alti3d, Diff)
+createRasterFromCopy(NewFile, dhm16_edit, Diff)
 
 substract=gdal.Open(ws+'/'+f'substract_{FileName}')
 
@@ -129,28 +121,27 @@ print('Now you have a file called Substract_(your file name) in the ws folder. T
 print('Processing of Delta-H Parametrization')
 #Read as Array
 substractArray = substract.GetRasterBand(1).ReadAsArray()
-alti3DArray = edit_alti3d.ReadAsArray()
+dhm16Array = dhm16_edit.ReadAsArray()
 
 #Mask the arrays
 
 masked_substract= np.ma.masked_invalid(substractArray)
-masked_alti3D= np.ma.masked_invalid(alti3DArray)
+masked_dhm16= np.ma.masked_invalid(dhm16Array)
 
 
-hypsometry, bins = np.histogram(masked_alti3D.compressed(), bins=int ((masked_alti3D.max()-masked_alti3D.min())/10))
+hypsometry, bins = np.histogram(masked_dhm16.compressed(), bins=int ((masked_dhm16.max() - masked_dhm16.min()) / 10))
 up_lim= bins[1:]
 low_lim=bins[0:-1]
-up_lim
-low_lim
+
 
 #Merge the two Masks
-multimask = np.ma.mask_or(np.ma.getmask(masked_substract), np.ma.getmask(masked_alti3D))
+multimask = np.ma.mask_or(np.ma.getmask(masked_substract), np.ma.getmask(masked_dhm16))
 
 substract_Final_Mask=np.ma.array(substractArray, mask=multimask, fill_value=np.nan ).compressed()
-alti3D_Final_Mask=np.ma.array(alti3DArray, mask=multimask,fill_value=np.nan).compressed()
+dhm16_Final_Mask=np.ma.array(dhm16Array, mask=multimask, fill_value=np.nan).compressed()
 
 #Make Dataframe dh/DHM
-df =  pd.DataFrame(np.column_stack([substract_Final_Mask, alti3D_Final_Mask]), columns=['dh','DHM'])
+df =  pd.DataFrame(np.column_stack([substract_Final_Mask, dhm16_Final_Mask]), columns=['dh', 'DHM'])
 
 #Make Elevation Bands
 df_sort = df.sort_values('DHM')
@@ -170,15 +161,13 @@ dh_df = df_band['dh']
 #plt.plot(dhm_df,dh_df)
 
 #smoth
-#dhm_smoth_df = dhm_df.rolling(window=3, min_periods=1).mean()
-dh_smoth_df = dh_df.rolling(window=3, min_periods=1).mean()
 
-#plt.plot(dhm_smoth_df, dh_smoth_df)
+dh_smoth_df = dh_df.rolling(window=3, min_periods=1).mean()
 
 
 
 #Normalize dhm and dh
-#dhm_smoth_df_n = normalize_DHM(dhm_smoth_df)
+
 dhm_df_n = normalize_DHM(dhm_df)
 dh_smoth_df_n = normalize_dh(dh_smoth_df)
 
@@ -209,5 +198,4 @@ print('Txt file of the parametrization is saved in your ws')
 
 #####################################################################IMPLEMENTATION##################################################################################################
 
-################################################################Calculate Ba(Massbalance)###########################################################################################
 
