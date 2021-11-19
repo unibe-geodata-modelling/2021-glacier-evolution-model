@@ -8,7 +8,7 @@ Both skripts were written in Python 3.9. in the PyCharm 2020.3.3 Community Editi
 
 ## Delta-H Parametrization
 
-This Script includes the code for parametrizing individual glaciers according to Huss et al. 2010.
+This script includes the code for parametrizing individual glaciers according to Huss et al. 2010.
 Data used to run the script can be downloaded an preprocessed by your self or downloaded via a google drive folder where no preprocessing via GIS is neccesarry. To get access send a mail to jonas.schild@students.unibe.ch. With this script you can do the parametrization for all glaciers included in the Swiss Glacier Inventory 2016.
 
 ### Input data
@@ -22,10 +22,10 @@ Here a list of the required input data, which has to be saved in to your workspa
                               Because of the larger data amount it is not availble for whole Switzerland. You can just download single squares, which you then have to merge.
                               This is an example for Glacier de Tsanfleuron. 
   
-  - 16_outlines -> this is a folder with the glacier outlines of switzerland in 2016. Provided by Swiss Glacier Inventory 2016
+  - 16_outlines -> this is a folder with the glacier outlines of switzerland in 2016. Provided by Swiss Glacier Inventory 2016.
 
  
-All steps to run the script are mentioned in the script it self. Just download the mentioned data above . In the google drive folder is the glacier_tsanfleuron.tif data as an example. If you want to run the scrip for an other glacier just download the matching squares of the Swiss Topo Alti3D via the link above and merge them via QGIS. Then you just have to enter a diffrent file name and glacier name. But this script works for any glacier included in the Swiss Glacier Inventory 2016. 
+All steps to run the script are mentioned in the script it self. Just download the mentioned data above. In the google drive folder is the glacier_tsanfleuron.tif data as an example. If you want to run the scrip for an other glacier just download the matching squares of the Swiss Topo Alti3D via the link above and merge them via QGIS. Then you just have to enter a diffrent file name and glacier name. But this script works for any glacier included in the Swiss Glacier Inventory 2016. 
  
  ### Output data
  
@@ -53,10 +53,10 @@ Required input data:
   - dhm25_grid_raster.tif -> you can copy this from the parametrization ws 
   - glacier_tsanfleuron.tif -> you can copy this from the parametrization ws.
   - edit_glacier_tsanfleuron.tif -> you can copy this from the parametrization ws. 
-  - 98_outline -> this folder contains a shape_file of the glacier outline of the year 1998. Drawn according to the ortophoto and the historical Map of 1998. Provided by                           Swisstopo. You have this file in the google drive folder
+  - 98_outline -> this folder contains a shape_file of the glacier outline of the year 1998. Drawn according to the ortophoto and the historical Map of 1998. Provided by                           Swisstopo. You have this file in the google drive folder.
   - 16_outlines -> this folder you can copy from the parametrization ws. 
   - GlacierBed.tif -> This is an elevation model of all glacier beds of the Swiss Alps. Provided by ETH Zürich. You find this file in the google drive folder. 
-  - deltaH_Glacier de Tsanfleuron.txt -> This is the .txt file of the parametrization. You can copy this from the parametrization ws
+  - deltaH_Glacier de Tsanfleuron.txt -> This is the .txt file of the parametrization. You can copy this from the parametrization ws.
 
 All further steps are  mentioned in the script. The only two things you have to do is to make a workspace folder with the seven files from above and indicate the path of it. A second thing is to enter the number of years you want to project in to the future. 
 
@@ -64,7 +64,7 @@ All further steps are  mentioned in the script. The only two things you have to 
 
 Beside some irrelevant files you will get as an output in your workspace folder these two important files:
 
-  - gltsf_(year according to the insertet number of years).tif -> this is the updated glacier surface for the chosen year
+  - gltsf_(year according to the insertet number of years).tif -> this is the updated glacier surface for the chosen year.
   - substract_gltsf_2016-(year according to the insertet number of years).tif -> this is the difference of glacier surface elevation between 2016 and your chosen year. 
 
 
