@@ -48,10 +48,10 @@ ws = input('create a workspace folder and enter path of your workspace(ws):')
 ################################################PREPROCESSING###########################################################
 
 #Download glacier outlines
-print('download the glacier_outlines folder from Drive and safe it to ws')
+print('download the 16_outlines folder from Drive and safe it to ws')
 
 #Download dhm25 and Safe to ws
-print("download the dhm25_grid_raster from Drive and Save it to ws")
+print("download the dhm25_grid_raster.asc from Drive and Save it to ws")
 
 
 #Select the Glacier
