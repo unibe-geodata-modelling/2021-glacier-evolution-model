@@ -31,6 +31,10 @@ def normalize_dh (dh):
 
 ws = input('Enter the path of your workspace for the implementation script:')
 
+#Check Input Data
+
+print('Make sure that all seven input files according to the README are saved in your ws')
+
 #Drivers and Proj(EPSG 21781 for LV03)
 drv = gdal.GetDriverByName('GTiff')
 srs = osr.SpatialReference()
@@ -166,7 +170,7 @@ for index in range(len(parametrization)):
         Alti_H1 = np.where(((dhm16Array >= (parametrization.iloc[index, 4])) & (dhm16Array <= (parametrization.iloc[index, 5]))), dhm16Array + fs * parametrization.iloc[index, 2], Alti_H1)
 
 Alti_H1_Final = np.where(Alti_H1 >= edit_glacier_bed_array, Alti_H1, np.nan)
-print(Alti_H1_Final)
+
 
 
 ########################################################Calculae new fs_H1 according to alti_H1_final#########################################################################
@@ -201,7 +205,7 @@ for index in range(len(parametrization)):
 
 Alti_H2_float = np.array(Alti_H2, dtype= float)
 Alti_H2_Final = np.where(Alti_H2_float >= edit_glacier_bed_array, Alti_H2_float, np.nan)
-print(Alti_H2_Final)
+
 
 #########################################Calculate fs_H2 according to alti_H2################################################################
 #Mask alti_H2_Final
@@ -281,6 +285,6 @@ createRasterFromCopy(NewFile, edit_dhm16, substract_years)
 Alti_List=NewFile=None
 
 print('you will find a .tif file: substract_gltsf_2016-(the year you have chosen) in your ws')
-print( 'if you like to model another time span. just run the code again')
+print( 'if you like to model another time span just run the code again')
 
 ################################################################END#########################################################################
