@@ -1,15 +1,15 @@
 # 2021-glacier-evolution-model
 
-This is the README for the 2021-glacier-evolution-model repository. It contains two scripts. Delta-H Parametrization and the built on it Delta-H Implementation.
+This is the README for the 2021-glacier-evolution-model repository. It contains two scripts. Delta-H Parameterization and the built on it Delta-H Implementation.
 
 ## Software
 
 Both skripts were written in Python 3.9. in the PyCharm 2020.3.3 Community Edition.
 
-## Delta-H Parametrization
+## Delta-H Parameterization
 
-This script includes the code for parametrizing individual glaciers according to Huss et al. 2010.
-Data used to run the script can be downloaded an preprocessed by your self or downloaded via a google drive folder where no preprocessing via GIS is neccesarry. To get access send a mail to jonas.schild@students.unibe.ch. With this script you can do the parametrization for all glaciers included in the Swiss Glacier Inventory 2016.
+This script includes the code for parameterizing individual glaciers according to Huss et al. 2010.
+Data used to run the script can be downloaded an preprocessed by your self or downloaded via a google drive folder where no preprocessing via GIS is neccesarry. To get access send a mail to jonas.schild@students.unibe.ch. With this script you can do the parameterization for all glaciers included in the Swiss Glacier Inventory 2016.
 
 ### Input data
 
